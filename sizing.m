@@ -77,7 +77,7 @@ hold on
 title('Power Loading vs. Wing Loading')
 axis([0 2500 0 50])
 xlabel('Wing Loading, W/S [N/m^2]')
-ylabel('Power to Weight Ratio, P/W, [kW/N]')
+ylabel('Power to Weight Ratio, P/W, [W/N]')
 yline(PW.Ceiling,'b','LineWidth',2)
 xline(WS.Stall,'LineWidth',2)
 plot(WS.lin,PW.Maneuver1,'r','LineWidth',2)
