@@ -1,11 +1,11 @@
 %all units MKS
 
 %Load Factors
-n = [3 -1]
-Nz = 1.5*n
+n = [3 -1];
+Nz = 1.5*n;
 
 %Speeds %m/s
-V_stall = 38; %%% Revise
+V_stall = 41.58;
 V_takeoff = 1.1*V_stall; %lecture 3 slide 47
 V_climb = 64; 
 V_cruise = 108.056;
