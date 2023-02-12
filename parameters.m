@@ -27,6 +27,7 @@ V_maneuver = [38.0556 + 5.14444, V_cruise, V_cruise]; %10kts above stall 1 engin
 
 %% Wings
 S = 44; %area
+% b = %span
 AR %aspect ratio
 qcs %quarter chord sweep
 taper %taper ratio
@@ -41,15 +42,22 @@ C_Lmax = 0.9*C_lmax*cosd(sweep); %lecture
 C_Ltakeoff = C_Lmax/1.21; %lecture
 
 
-%% Weights and Fractions (kg)
-% Wfw = ;%fuel weight in wings
+LD = 16; %lift to drag ratio
+%% Structures
 
-Wp = 2268; %payload weight
+%% Weights and Fractions (kg)
+%components
+% Wpmax = 2268; %payload weight for cessna
 WeW0 = .60; %empty weight fraction
 Wc = 104.326; %weight of 1 person
+pax = 16; %15 passengers +1 pilot
+Wp = pax*Wc;
 
 % fuel weight ratio
-WfW0.max = .25; %max for cessna
+WfW0 = .25; %max for cessna
 
+% Wfw = ;%fuel weight in wings
+Wpress = 0; %weight penalty for cabin pressurization
 
-
+W0 = (Wp)./(1 - WeW0 - WfW0);
+% W0 = (Wp + pax*Wc)./(1 - WeW0 - WfW0); %assumes paylaod + passengers
