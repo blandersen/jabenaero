@@ -2,19 +2,6 @@
 
 g = 9.81; %gravity
 
-%% Factors
-n = [3 -1];
-Nz = 1.5*n;
-TOP = 300; %Takeoff parameter
-
-%% Air Densities
-rho_sl= 1.2250; %kg/m^3
-rho_ceil = 1.0556; %kg/m^2, 5000ft
-
-%% Propulsion
-PW = 26.2426; %W/N
-% eta %propulsive efficiency
-
 %% Speeds %m/s
 V_stall = 41.58;
 V_takeoff = 1.1*V_stall; %lecture 3 slide 47
@@ -24,6 +11,22 @@ V_approach = 1.3*V_stall; %lecture 3 slide 47
 V_landing = 50;
 V_maneuver = [38.0556 + 5.14444, V_cruise, V_cruise]; %10kts above stall 1 engine, pull up maneuver, push down
 
+
+%% Factors
+n = [3 -1];
+Nz = 1.5*n;
+TOP = 300; %Takeoff parameter
+G = sind(15); %climb gradient
+S_landing = 0.507*mps2knots(V_landing)^2;
+S_a = 450;
+
+%% Air Densities
+rho_sl= 1.2250; %kg/m^3
+rho_ceil = 1.0556; %kg/m^2, 5000ft
+
+%% Propulsion
+PW = 26.2426; %W/N
+% eta %propulsive efficiency
 
 %% Wings
 S = 44; %area

@@ -1,23 +1,23 @@
 clear;close all; clc;
-%this calls the github parameters to calculate everything
-%variables
-WS.lin = linspace(0,500*9.8,500); %N/m2
 
-
+run parameters.m
+clear ('PW', 'WS')
 % WS = CL_max/2*1/2*rho*Vstall^2;
 
+%variables
+WS.lin = linspace(0,500*9.8,500); %N/m2
 %% Parameters
-%Speeds %m/s
-V_stall = 41.58; %%% Revise
-V_takeoff = 1.1*V_stall; %lecture 3 slide 47
-V_climb = 64; 
-V_cruise = 108.056;
-V_approach = 1.3*V_stall; %lecture 3 slide 47
-V_landing = 50;
-V_maneuver = [38.0556 + 5.14444, V_cruise, V_cruise]; %10kts above stall 1 engine, landing maneuver
-%Air Densities
-rho_sl= 1.2250; %kg/m^3
-rho_ceil = 1.0556; %kg/m^2, 5000ft
+% %Speeds %m/s
+% V_stall = 41.58; %%% Revise
+% V_takeoff = 1.1*V_stall; %lecture 3 slide 47
+% V_climb = 64; 
+% V_cruise = 108.056;
+% V_approach = 1.3*V_stall; %lecture 3 slide 47
+% V_landing = 50;
+% V_maneuver = [38.0556 + 5.14444, V_cruise, V_cruise]; %10kts above stall 1 engine, landing maneuver
+% %Air Densities
+% rho_sl= 1.2250; %kg/m^3
+% rho_ceil = 1.0556; %kg/m^2, 5000ft
 
 %Dynamic Pressures
 q_stall = q(rho_sl, V_stall);
@@ -30,27 +30,27 @@ q_cruise = q(rho_ceil, V_cruise);
 n=3;
 
 %lift-drag ratio
-LD = 15;
+% LD = 15;
 e = 0.8; %oswald
-AR = 16; %aspect ratio
-G = sind(15); %test
+% AR = 16; %aspect ratio
+% G = sind(15); %test
 % gamma = 15; %climb angle, degrees
 
 
-sweep = 5; %degrees
-TOP = 300; %takeoff parameter - 3000 ft runway %% LETS LOWER THIS
+% sweep = 5; %degrees
+% TOP = 300; %takeoff parameter - 3000 ft runway %% LETS LOWER THIS
 eta = .7; 
 
 %Coefficients
 C_D0 = 0.008;
 
-C_lmax = 1.5;
-C_Lmax = 0.9*C_lmax*cosd(sweep);
-C_Ltakeoff = C_Lmax/1.21;
+% C_lmax = 1.5;
+% C_Lmax = 0.9*C_lmax*cosd(sweep);
+% C_Ltakeoff = C_Lmax/1.21;
 
 % Landing
-S_landing = 0.507*mps2knots(V_landing)^2;
-S_a = 450;
+% S_landing = 0.507*mps2knots(V_landing)^2;
+% S_a = 450;
 %% Equations
 
 PW.Ceiling = 1/LD*(V_cruise/eta);
