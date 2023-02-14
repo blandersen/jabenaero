@@ -28,10 +28,11 @@ V_maneuver = [38.0556 + 5.14444, V_cruise, V_cruise]; %10kts above stall 1 engin
 %% Wings
 S = 44; %area
 % b = %span
-AR %aspect ratio
-qcs %quarter chord sweep
-taper %taper ratio
-tc %thickness to chord
+AR = 9.2;%aspect ratio
+qcs = 10;% degrees quarter chord sweep
+taper = 0.4;%taper ratio
+tc = 0.15; %thickness to chord
+xc = 0.25; %max thickness at quarter chord
 WS = 1227.4549; %wing loading, N/m2
 
 %% Aerodynamics
@@ -48,10 +49,10 @@ LD = 16; %lift to drag ratio
 %% Weights and Fractions (kg)
 %components
 % Wpmax = 2268; %payload weight for cessna
-WeW0 = .60; %empty weight fraction
+WeW0 = .55; %empty weight fraction
 Wc = 104.326; %weight of 1 person
-pax = 16; %15 passengers +1 pilot
-Wp = pax*Wc;
+pax = 16; %15 passengers + 1 pilot
+Wp = pax*Wc; %payload weight is equivalent to 16 people with 30lbs of cargo each
 
 % fuel weight ratio
 WfW0 = .25; %max for cessna
