@@ -8,7 +8,7 @@ clear ('PW', 'WS')
 WS.lin = linspace(0,500*9.8,500); %N/m2
 %% Parameters
 % %Speeds %m/s
-% V_stall = 41.58; %%% Revise
+% V_stall = 41.58;
 % V_takeoff = 1.1*V_stall; %lecture 3 slide 47
 % V_climb = 64; 
 % V_cruise = 108.056;
@@ -32,7 +32,7 @@ n=3;
 %lift-drag ratio
 % LD = 15;
 e = 0.8; %oswald
-% AR = 16; %aspect ratio
+AR = 9.2; %aspect ratio
 % G = sind(15); %test
 % gamma = 15; %climb angle, degrees
 
@@ -42,7 +42,7 @@ e = 0.8; %oswald
 eta = .7; 
 
 %Coefficients
-C_D0 = 0.008;
+C_D0 = 0.03;
 
 % C_lmax = 1.5;
 % C_Lmax = 0.9*C_lmax*cosd(sweep);
@@ -80,7 +80,7 @@ axis([0 2500 0 50])
 xlabel('Wing Loading, W/S [N/m^2]')
 ylabel('Power to Weight Ratio, P/W, [W/N]')
 yline(PW.Ceiling,'b','LineWidth',2)
-xline(WS.Stall,'LineWidth',2)
+xline(WS.Stall,'--k','LineWidth',2)
 plot(WS.lin,PW.Maneuver1,'r','LineWidth',2)
 plot(WS.lin,PW.Maneuver2,'--r','LineWidth',2)
 plot(WS.lin,PW.Maneuver3,':r','LineWidth',2)
@@ -89,14 +89,18 @@ plot(WS.lin, PW.Takeoff, 'g','LineWidth',2)
 xline(WS.Landing, 'y','LineWidth',2)
 
 %optimal point
-opter = PW.Climb;
-opty = min(opter);
-optx = WS.lin((opter) == opty);
+% opter = PW.Climb;
+% opty = min(opter);
+% optx = WS.lin((opter) == opty);
+
+optx = 1561.5; %W/S
+opty = 34.32; %PW
 grid on
-plot(optx,opty,'ok','LineWidth',3)
+plot(optx,opty,'^k','LineWidth',3)
 
 %
-legend('Ceiling', 'Stall', 'Low Speed Maneuver', 'Pull Up Maneuver', 'Pull Down Maneuver','Climb', 'Takeoff','Landing','Optimal Point')
+legend('Ceiling', 'Stall', 'Low Speed Maneuver', 'Pull Up Maneuver', 'Push Down Maneuver','Climb', 'Takeoff','Landing','Optimal Point')
+
 
 %% Functions
 function dynamicpressure = q(rho,V) 

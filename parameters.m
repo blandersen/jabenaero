@@ -3,7 +3,7 @@
 g = 9.81; %gravity
 
 %% Speeds %m/s
-V_stall = 41.58;
+V_stall = 47;%41.58;
 V_takeoff = 1.1*V_stall; %lecture 3 slide 47
 V_climb = 64; 
 V_cruise = 108.056;
@@ -65,3 +65,24 @@ Wpress = 0; %weight penalty for cabin pressurization
 
 W0 = (Wp)./(1 - WeW0 - WfW0);
 % W0 = (Wp + pax*Wc)./(1 - WeW0 - WfW0); %assumes paylaod + passengers
+
+
+
+
+
+
+
+
+
+%% Functions
+function dynamicpressure = q(rho,V) 
+dynamicpressure = 1/2 * rho .* V .^2;
+end
+
+function mps = mph2mps(mph)
+mps = mph/2.237;
+end
+
+function knots = mps2knots(mps)
+knots = mps*1.94384;
+end
