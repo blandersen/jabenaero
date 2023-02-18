@@ -44,7 +44,7 @@ C_D0 = 0.008; %parasitic drag
 C_lmax = 1.5; %airfoil 
 C_Lmax = 0.9*C_lmax*cosd(sweep); %lecture
 C_Ltakeoff = C_Lmax/1.21; %lecture
-
+dCLda = 1/0.174532925; %1/rads
 
 LD = 16; %lift to drag ratio
 %% Structures
