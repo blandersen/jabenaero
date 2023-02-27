@@ -21,13 +21,13 @@ WS.lin = linspace(0,500*9.8,500); %N/m2
 
 %Dynamic Pressures
 q_stall = q(rho_sl, V_stall);
-q_maneuver = q(rho_sl, V_maneuver);
+q_maneuver = q(rho_ceil, V_maneuver);
 q_climb = q(rho_ceil, V_climb);
 q_cruise = q(rho_ceil, V_cruise);
 
 
 %load factor
-n=3;
+n=3.5;
 
 %lift-drag ratio
 % LD = 15;
@@ -39,10 +39,10 @@ AR = 9.2; %aspect ratio
 
 % sweep = 5; %degrees
 % TOP = 300; %takeoff parameter - 3000 ft runway %% LETS LOWER THIS
-eta = .7; 
+eta = .2; 
 
 %Coefficients
-C_D0 = 0.03;
+C_D0 = 0.02;
 
 % C_lmax = 1.5;
 % C_Lmax = 0.9*C_lmax*cosd(sweep);
@@ -76,7 +76,7 @@ figure(1)
 hold on
 
 title('Power Loading vs. Wing Loading')
-axis([0 2500 0 50])
+axis([0 2500 0 250])
 xlabel('Wing Loading, W/S [N/m^2]')
 ylabel('Power to Weight Ratio, P/W, [W/N]')
 yline(PW.Ceiling,'b','LineWidth',2)
@@ -94,7 +94,7 @@ xline(WS.Landing, 'y','LineWidth',2)
 % optx = WS.lin((opter) == opty);
 
 optx = 1561.5; %W/S
-opty = 34.32; %PW
+opty = 119; %PW
 grid on
 plot(optx,opty,'^k','LineWidth',3)
 

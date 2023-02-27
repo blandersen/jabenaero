@@ -2,21 +2,30 @@
 
 g = 9.81; %gravity
 
+
+
 %% Speeds %m/s
 V_stall = 47;%41.58;
 V_takeoff = 1.1*V_stall; %lecture 3 slide 47
-V_climb = 64; 
+V_climb = 1.4*V_stall; 
 V_cruise = 108.056;
 V_approach = 1.3*V_stall; %lecture 3 slide 47
-V_landing = 50;
+V_landing = 1.15*V_stall;
 V_maneuver = [38.0556 + 5.14444, V_cruise, V_cruise]; %10kts above stall 1 engine, pull up maneuver, push down
 
+Velocities = {'V_stall ', V_stall;
+              'V_takeoff', V_takeoff;
+              'V_climb', V_climb;
+              'V_cruise', V_cruise;
+              'V_approach', V_approach;
+              'V_landing', V_landing;
+              'V_maneuver', V_maneuver}
 
 %% Factors
 n = [3 -1];
 Nz = 1.5*n;
-TOP = 300; %Takeoff parameter
-G = sind(15); %climb gradient
+TOP = 200; %Takeoff parameter
+G = tand(12); %climb gradient
 S_landing = 0.507*mps2knots(V_landing)^2;
 S_a = 450;
 
@@ -30,14 +39,17 @@ PW = 26.2426; %W/N
 
 %% Wings
 S = 44; %area
-% b = %span
 AR = 9.2;%aspect ratio
+b = sqrt(AR*S);
 qcs = 10;% degrees quarter chord sweep
 taper = 0.4;%taper ratio
 tc = 0.15; %thickness to chord
 xc = 0.25; %max thickness at quarter chord
 WS = 1227.4549; %wing loading, N/m2
-
+cr = 3.12; %root chord
+ct = 1.25; %tip chord
+mac = (2/3)*((1 + taper + taper^2)/(1+taper))*cr;
+Ymac = (b/6)*(1+2*taper)/(1+taper);
 %% Aerodynamics
 sweep = 10; %degrees
 C_D0 = 0.008; %parasitic drag
@@ -45,8 +57,9 @@ C_lmax = 1.5; %airfoil
 C_Lmax = 0.9*C_lmax*cosd(sweep); %lecture
 C_Ltakeoff = C_Lmax/1.21; %lecture
 dCLda = 1/0.174532925; %1/rads
-
+AOAmax = 13; %deg
 LD = 16; %lift to drag ratio
+
 %% Structures
 
 %% Weights and Fractions (kg)

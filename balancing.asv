@@ -1,0 +1,68 @@
+clear;clc;
+
+run weights.m
+
+W.fwdeng = W.ie*2;
+
+
+%Masses in lbs, distances in feet
+Lfus = 15; %fuselage length
+
+%% Position relative to nose tip [x,y]
+X.CG = [NaN, NaN]; %CG
+X.fwdeng = [5,0];
+X.afteng = [14,0];
+X.avi = [2, 0]; %avionics
+% Xe
+% Xf
+% Xfc
+X.fs = [10, 0]; %fuel system
+% Xfw
+% Xie
+% Xuav
+X.wing = [8, 0]; 
+
+xfn = fieldnames(X);
+
+%% Labels
+label.CG = 'CG';
+label.fwdeng = 'Fwd. Engine';
+label.afteng = 'Aft Engine';
+label.avi = 'Avionics';
+label.fs = 'Fuel System';
+label.wing = 'Wing';
+
+%% CG Calc
+
+Wtotal = 0;
+for k=1:numel(xfn)
+    if( isnumeric(X.(xfn{k})) && ~strcmp((xfn{k}),'CG') )
+        x = X.(xfn{k})(1);
+        y = X.(xfn{k})(2);
+        Wtotal = Wtotal + W.(xfn{k});
+        WX = W.(xfn{k})*x;
+        WY = W.(xfn{k})*y;
+        WXtotal = WXtotal+WX;
+        WYtotal = WYtotal+WY;
+    end
+end
+
+X.CG(1) = WX/Wtotal;
+X.CG(2) = WY/Wtotal;
+
+%% plot
+figure
+hold on; axis equal;
+title('Relative Weight and CG Placement')
+for k=1:numel(xfn)
+    if( isnumeric(X.(xfn{k})) )
+        x = X.(xfn{k})(1);
+        y = X.(xfn{k})(2);
+        plot(x,y, 'ob', 'linewidth',2)
+        text(x,y,label.(xfn{k}),'VerticalAlignment','bottom','HorizontalAlignment','right')
+    end
+end
+
+
+
+% text(x,y,labels,'VerticalAlignment','bottom','HorizontalAlignment','right')
