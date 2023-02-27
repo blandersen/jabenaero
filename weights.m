@@ -11,14 +11,14 @@ q_cruise = q(rho_ceil, V_cruise)/6895;
 tc = 0.15;
 
 %Wing
-W.fusw = kg2lb(2.0865e3);
+W.w = kg2lb(2.0865e3);
 AR = 9.2;
 A = 10;
 lambda = 0.4;
 Wdg = kg2lb(8.34601e3);
 Nz = 4.5;
 Sw = 44*(3.281^2);
-W.wing = 0.036*(Sw^0.758)*(W.fusw^0.0035)*(AR/cosd(A)^2)^.6 * q_cruise^0.006 *lambda^0.04*(100*tc/cosd(A))^(-0.3)*(Nz*Wdg)^0.49;
+W.wing = 0.036*(Sw^0.758)*(W.w^0.0035)*(AR/cosd(A)^2)^.6 * q_cruise^0.006 *lambda^0.04*(100*tc/cosd(A))^(-0.3)*(Nz*Wdg)^0.49;
 
  
 Sf = 46*pi*(6.32^2)/4 + 2*pi*(6.32^2)/4;                    %Estimate, 14 m length, modelled as cylinder

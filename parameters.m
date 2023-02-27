@@ -19,7 +19,7 @@ Velocities = {'V_stall ', V_stall;
               'V_cruise', V_cruise;
               'V_approach', V_approach;
               'V_landing', V_landing;
-              'V_maneuver', V_maneuver}
+              'V_maneuver', V_maneuver};
 
 %% Factors
 n = [3 -1];
@@ -60,6 +60,9 @@ dCLda = 1/0.174532925; %1/rads
 AOAmax = 13; %deg
 LD = 16; %lift to drag ratio
 
+
+% NP = [x, y]
+
 %% Structures
 
 %% Weights and Fractions (kg)
@@ -79,9 +82,18 @@ Wpress = 0; %weight penalty for cabin pressurization
 W0 = (Wp)./(1 - WeW0 - WfW0);
 % W0 = (Wp + pax*Wc)./(1 - WeW0 - WfW0); %assumes paylaod + passengers
 
+% Weights in kg
 
-
-
+W.fus= 4.5999e+03;
+W.wing= 756.4274;
+W.fus= 147.1241;
+W.ie= 743.1507;
+W.fc= 229.6821;
+W.avi= 660.5895;
+W.fs= 334.2519;
+W.elec= 286.8911;
+W.pl= 757.0068;
+W.fuel= 2.0862e+03;
 
 
 
