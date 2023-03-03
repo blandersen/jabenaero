@@ -46,8 +46,8 @@ taper = 0.4;%taper ratio
 tc = 0.15; %thickness to chord
 xc = 0.25; %max thickness at quarter chord
 WS = 1227.4549; %wing loading, N/m2
-cr = 3.12; %root chord
-ct = 1.25; %tip chord
+cr = 2.6; %root chord
+ct = 1.04; %tip chord
 mac = (2/3)*((1 + taper + taper^2)/(1+taper))*cr;
 Ymac = (b/6)*(1+2*taper)/(1+taper);
 %% Aerodynamics
@@ -84,17 +84,18 @@ W0 = (Wp)./(1 - WeW0 - WfW0);
 
 % Weights in kg
 
-W.fus= 4.5999e+03;
-W.wing= 756.4274;
-W.fus= 147.1241;
-W.ie= 743.1507;
-W.fc= 229.6821;
-W.avi= 660.5895;
-W.fs= 334.2519;
-W.elec= 286.8911;
-W.pl= 757.0068;
-W.fuel= 2.0862e+03;
-
+% W.fus= 4.5999e+03; don't know where this comes from
+W.fus = 324;  %fuselage
+W.wing= 756.4274; %wing
+% W.fus= 147.1241; %fuselage
+W.ie= 743.1507; %installed engines
+W.fc= 229.6821; %
+W.avi= 660.5895; %avionics
+W.fs= 334.2519; %fuel system
+W.elec= 286.8911; %electrical components
+W.pl= 757.0068; %payload
+W.fuel= 2.0862e+03; %fuel weight
+W.pilot = 110; %pilot
 
 
 

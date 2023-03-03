@@ -4,34 +4,43 @@ run parameters.m
 
 W.fwdeng = W.ie*2;
 W.afteng = W.ie*2;
-
+W.fwdgear = 400/3; %~5% of gross mass
+W.aftgear = 400/3; %~5% of gross mass
 %% Fuselage Basic Geometry
 %Masses in lbs, distances in feet
-fuselage.L = 15; %fuselage length
+fuselage.L = 17; %fuselage length
 fuselage.R = 1; % radius
+
+%% Mean Aerodynamic Chord
+%mac is defined in parameters.m
+mac_sweep_distance = ((cr+2*ct)) / (3*(cr+ct)); % offset from forwardmost point
+wing_cg_offset = 0.40*cr; % 40% of root chord wing CG is placed
+tip_leading_edge_offset = (b/2)*sind(sweep); % with respect to forward most leading 
 
 %% Position relative to nose tip [x,y]
 % position of each weight value
+%change the fraction 0.XXX percent of the fuselage
 
 X.CG = [NaN, NaN]; %CG
-X.fwdeng = [5,0];
-X.afteng = [14,fuselage.R];
-X.avi = [2, 0]; %avionics
-X.fus = [fuselage.L/2.2, 0];
-% Xf
-% Xfc
-X.fs = [7.5, 0]; %fuel system
-% Xfw
+X.avi = [0.1* fuselage.L, 0]; %avionics
+X.fus = [0.55 * fuselage.L, 0];
+X.elec = [0.4 * fuselage.L, -0.80 * fuselage.R];
+X.fs = [0.7 * fuselage.L, 0]; %fuel system
 % Xie
-% Xuav
-X.wing = [9, fuselage.R]; 
-X.pl = [10, 0];
+X.wing = [0.5 * fuselage.L + wing_cg_offset, fuselage.R]; %number is forward most point of leading edge
+X.pl = [0.6 * fuselage.L, 0];
+X.fwdeng = X.wing + [tip_leading_edge_offset,0];
+X.afteng = [0.9 * fuselage.L,fuselage.R];
+X.fwdgear = [0.1 * fuselage.L, -fuselage.R];
+X.pilot = [0.15 * fuselage.L, 0];
+%front gear placement
+Pfg = [0.1 * fuselage.L, -2];
 
 xfn = fieldnames(X);
 
 %check for a neutral point defined in parameters.m
 try NP;
-catch NP = 0.6*[fuselage.L, fuselage.R];
+catch NP = 0.62*[fuselage.L, fuselage.R];
 end
 
 
@@ -42,11 +51,15 @@ label.CG = 'CG';
 label.NP = 'NP';
 label.fwdeng = 'Fwd. Props';
 label.afteng = 'Aft. Props';
-label.avi = 'Avionics';
+label.avi = 'Avi.';
 label.fs = 'FS';
 label.wing = 'Wing';
 label.pl = 'PL';
 label.fus = 'Fuse.';
+label.elec = 'Elec.';
+label.fwdgear = 'Fwd Gear';
+label.pilot = 'Pilot';
+% label.fcontrol = 'Controls';
 %% CG Calc
 
 Wtotal = 0;
@@ -54,6 +67,15 @@ WXtotal = 0;
 WYtotal = 0;
 for k=1:numel(xfn)
     if( isnumeric(X.(xfn{k})) && ~strcmp((xfn{k}),'CG') )
+        try label.(xfn{k});
+        catch, fprintf('\nLabel needed: Add <label.%s>\n',(xfn{k})); return;
+        end
+        try W.(xfn{k});
+        catch, fprintf('\nWeight needed: Add <W.%s>\n',(xfn{k})); return;
+        end
+        try X.(xfn{k});
+        catch, fprintf('\nPosition needed: Add <X.%s>\n',(xfn{k})); return;
+        end
         x = X.(xfn{k})(1);
         y = X.(xfn{k})(2);
         Wtotal = Wtotal + W.(xfn{k});
@@ -67,18 +89,22 @@ W.CG = Wtotal;
 X.CG(1) = WXtotal/Wtotal;
 X.CG(2) = WYtotal/Wtotal;
 
+%% Static Margin
+
+staticmargin = (NP(1) - X.CG(1))/mac;
+
 %% Gear placement, tail geometry
 
 Yfus = 2; 
-
+clearance = 20; %degrees above horizontal at main gear to clear land/takeoff
 
 % % % gear positions
 % main gear - change Y only
-Pmg = [X.CG(1); -2]; %main gear - relative to CG
-Pmg(1) = Pmg(1) - tand(15)*Pmg(2);
+Pmg = [X.CG(1); Pfg(2)]; %main gear - relative to CG
+Pmg(1) = Pmg(1) - tand(clearance)*Pmg(2);
 
 %front gear, change X only
-Pfg = [1; Pmg(2)];
+
 
 % % %
 
@@ -87,6 +113,7 @@ tailcone = @(x) tand(14)*(x - Pmg(1)) + Pmg(2);
 
 %% plot
 fig1 = figure(1);
+subplot(2,1,1)
 hold on; axis equal;
 title('Relative Weight and CG Placement')
 axis([-1 fuselage.L+5 -3 3])
@@ -94,41 +121,34 @@ xlabel('Station [m]')
 ylabel('Height [m]')
 xline(0)
 yline(0)
-fig1.Position = [250 250 2.5*560 500];
-
+fig1.Position = [250 250 1028 640];
+xline(fuselage.L)
 %plot components
 for k=1:numel(xfn)
     if( isnumeric(X.(xfn{k})) && ~strcmp((xfn{k}),'CG') )
         %ensure there are Weight/Position/Label for each entry
-        try label.(xfn{k});
-        catch sprintf('\nLabel needed: Add <label.(xfn{k})>\n'); return;
-        end
-        try W.(xfn{k});
-        catch sprintf('\nWeight needed: Add <W.(xfn{k})>\n'); return;
-        end
-        try X.(xfn{k});
-        catch sprintf('\nPosition needed: Add <X.(xfn{k})>\n'); return;
-        end
+
 
         x = X.(xfn{k})(1);
         y = X.(xfn{k})(2);
         plot(x,y, '*b', 'linewidth',5)
 %         lb = sprintf( '%s\n%3.d kg\n', label.(xfn{k}), W.(xfn{k}) );
-        lb = sprintf( '%s\n', label.(xfn{k}) );
+        lb = sprintf( '  %s', label.(xfn{k}) );
 
-        text(x,y,lb,'VerticalAlignment','bottom','HorizontalAlignment','left')
+        ptext = text(x,y,lb,'VerticalAlignment','middle','HorizontalAlignment','left')
+        set(ptext,'Rotation',45);
     end
 end
 
 %plot CG
-cglb = sprintf( '\n%s\n%3.d kg', label.CG, W.CG );
-scatter(X.CG(1), X.CG(2),150,'ys','filled','MarkerEdgeColor','k','LineWidth',2)
-text(X.CG(1), X.CG(2),cglb,'VerticalAlignment','bottom','HorizontalAlignment','left')
+cglb = sprintf( '%s %8.0f kg', label.CG, W.CG );
+pcg = scatter(X.CG(1), X.CG(2),150,'ys','filled','MarkerEdgeColor','k','LineWidth',2)
+% text(X.CG(1), X.CG(2),cglb,'VerticalAlignment','bottom','HorizontalAlignment','left')
 
 %plot neutral point NP
-nplb = sprintf( '\n%s\n', label.NP );
-scatter(NP(1), NP(2),150,'ms','filled')
-text(NP(1), NP(2), nplb,'VerticalAlignment','bottom','HorizontalAlignment','left')
+% nplb = sprintf( '\n%s\n', label.NP );
+pnp = scatter(NP(1), NP(2),150,'ms','filled')
+% text(NP(1), NP(2), nplb,'VerticalAlignment','bottom','HorizontalAlignment','left')
 
 
 % plot gear
@@ -143,6 +163,25 @@ fplot(tailcone, Pmg(1)*[1 20], '--', 'Color',grey, 'LineWidth', 2)
 % plot main cabin
 fplot(fuselage.R, '--', 'Color',grey, 'LineWidth', 2)
 fplot(-fuselage.R, '--', 'Color',grey, 'LineWidth', 2)
+
+legend([pcg pnp], {cglb,'Neutral Point'},'Location','southeast' )
+
+%% Plot Stability
+subplot(2,1,2)
+hold on
+title('Static Margin')
+p1 = plot(([0 mac] + X.wing(1)), [0 0], 'Color', grey,'Linewidth',6);
+p2 = scatter(X.CG(1), 0,150,'ys','filled','MarkerEdgeColor','k','LineWidth',2);
+p3 = scatter(NP(1), 0,150,'ms','filled');
+
+
+%display static margin
+text(X.wing(1),-1, sprintf('Static Margin: %5.2f %%',staticmargin*100),'VerticalAlignment','bottom','HorizontalAlignment','left')
+yline(0)
+pltax = gca;
+pltax.XLim = pltax.XLim + [-2 2];
+pltax.YLim = [-2 2];
+legend([p1 p2 p3], {'MAC', 'Center of Gravity', 'Neutral Point'})
 
 
 
