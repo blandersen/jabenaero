@@ -135,25 +135,25 @@ for k=1:numel(xfn)
 %         lb = sprintf( '%s\n%3.d kg\n', label.(xfn{k}), W.(xfn{k}) );
         lb = sprintf( '  %s', label.(xfn{k}) );
 
-        ptext = text(x,y,lb,'VerticalAlignment','middle','HorizontalAlignment','left')
+        ptext = text(x,y,lb,'VerticalAlignment','middle','HorizontalAlignment','left');
         set(ptext,'Rotation',45);
     end
 end
 
 %plot CG
 cglb = sprintf( '%s %8.0f kg', label.CG, W.CG );
-pcg = scatter(X.CG(1), X.CG(2),150,'ys','filled','MarkerEdgeColor','k','LineWidth',2)
+pcg = scatter(X.CG(1), X.CG(2),150,'ys','filled','MarkerEdgeColor','k','LineWidth',2);
 % text(X.CG(1), X.CG(2),cglb,'VerticalAlignment','bottom','HorizontalAlignment','left')
 
 %plot neutral point NP
 % nplb = sprintf( '\n%s\n', label.NP );
-pnp = scatter(NP(1), NP(2),150,'ms','filled')
+pnp = scatter(NP(1), NP(2),150,'ms','filled');
 % text(NP(1), NP(2), nplb,'VerticalAlignment','bottom','HorizontalAlignment','left')
 
 
 % plot gear
-plot([Pfg(1) Pmg(1)], [Pfg(2) Pmg(2)], 'ko', 'LineWidth', 10)
-text([Pfg(1) Pmg(1)], [Pfg(2) Pmg(2)],{'Front Gear','Main Gear'},'VerticalAlignment','top','HorizontalAlignment','left')
+plot([Pfg(1) Pmg(1)], [Pfg(2) Pmg(2)], 'ko', 'LineWidth', 10);
+text([Pfg(1) Pmg(1)], [Pfg(2) Pmg(2)],{'Front Gear','Main Gear'},'VerticalAlignment','top','HorizontalAlignment','left');
 
 
 % plot tail cone limit
@@ -162,7 +162,7 @@ fplot(tailcone, Pmg(1)*[1 20], '--', 'Color',grey, 'LineWidth', 2)
 
 % plot main cabin
 fplot(fuselage.R, '--', 'Color',grey, 'LineWidth', 2)
-fplot(-fuselage.R, '--', 'Color',grey, 'LineWidth', 2)
+fplot(-fuselage.R, '--', 'Color',grey, 'LineWidth', 2);
 
 legend([pcg pnp], {cglb,'Neutral Point'},'Location','southeast' )
 
@@ -176,12 +176,13 @@ p3 = scatter(NP(1), 0,150,'ms','filled');
 
 
 %display static margin
-text(X.wing(1),-1, sprintf('Static Margin: %5.2f %%',staticmargin*100),'VerticalAlignment','bottom','HorizontalAlignment','left')
-yline(0)
+text(X.wing(1),-1, sprintf('Static Margin: %5.2f %%',staticmargin*100),'VerticalAlignment','bottom','HorizontalAlignment','left');
+yline(0);
 pltax = gca;
 pltax.XLim = pltax.XLim + [-2 2];
 pltax.YLim = [-2 2];
-legend([p1 p2 p3], {'MAC', 'Center of Gravity', 'Neutral Point'})
+xlabel('Station [m]');
+legend([p1 p2 p3], {'MAC', 'Center of Gravity', 'Neutral Point'});
 
 
 
