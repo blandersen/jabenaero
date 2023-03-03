@@ -59,7 +59,7 @@ C_Ltakeoff = C_Lmax/1.21; %lecture
 dCLda = 1/0.174532925; %1/rads
 AOAmax = 13; %deg
 LD = 16; %lift to drag ratio
-
+e = 0.8;
 
 % NP = [x, y]
 

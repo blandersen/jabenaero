@@ -33,8 +33,8 @@ n=3.5;
 % LD = 15;
 e = 0.8; %oswald
 AR = 9.2; %aspect ratio
-% G = sind(15); %test
-% gamma = 15; %climb angle, degrees
+% gamma = 10; %climb angle, degrees
+% G = sind(gamma); 
 
 
 % sweep = 5; %degrees
