@@ -2,39 +2,12 @@
 
 g = 9.81; %gravity
 
-
-
-%% Speeds %m/s
-V_stall = 47;%41.58;
-V_takeoff = 1.1*V_stall; %lecture 3 slide 47
-V_climb = 1.4*V_stall; 
-V_cruise = 108.056;
-V_approach = 1.3*V_stall; %lecture 3 slide 47
-V_landing = 1.15*V_stall;
-V_maneuver = [38.0556 + 5.14444, V_cruise, V_cruise]; %10kts above stall 1 engine, pull up maneuver, push down
-
-Velocities = {'V_stall ', V_stall;
-              'V_takeoff', V_takeoff;
-              'V_climb', V_climb;
-              'V_cruise', V_cruise;
-              'V_approach', V_approach;
-              'V_landing', V_landing;
-              'V_maneuver', V_maneuver};
-
-%% Factors
-n = [3 -1];
-Nz = 1.5*n;
-TOP = 200; %Takeoff parameter
-G = tand(12); %climb gradient
-S_landing = 0.507*mps2knots(V_landing)^2;
-S_a = 450;
-
 %% Air Densities
 rho_sl= 1.2250; %kg/m^3
 rho_ceil = 1.0556; %kg/m^2, 5000ft
 
 %% Propulsion
-PW = 26.2426; %W/N
+PW = 119; %W/N
 % eta %propulsive efficiency
 
 %% Wings
@@ -45,14 +18,15 @@ qcs = 10;% degrees quarter chord sweep
 taper = 0.4;%taper ratio
 tc = 0.15; %thickness to chord
 xc = 0.25; %max thickness at quarter chord
-WS = 1227.4549; %wing loading, N/m2
+WS = 835; %wing loading, N/m2
 cr = 2.6; %root chord
 ct = 1.04; %tip chord
 mac = (2/3)*((1 + taper + taper^2)/(1+taper))*cr;
 Ymac = (b/6)*(1+2*taper)/(1+taper);
+
 %% Aerodynamics
 sweep = 10; %degrees
-C_D0 = 0.008; %parasitic drag
+C_D0 = 0.02; %parasitic drag
 C_lmax = 1.5; %airfoil 
 C_Lmax = 0.9*C_lmax*cosd(sweep); %lecture
 C_Ltakeoff = C_Lmax/1.21; %lecture
@@ -85,7 +59,7 @@ W0 = (Wp)./(1 - WeW0 - WfW0);
 % Weights in kg
 
 % W.fus= 4.5999e+03; don't know where this comes from
-W.fus = 324;  %fuselage
+W.fus = 1.0433e+03;  %fuselage 12.5% of takeoff weight
 W.wing= 756.4274; %wing
 % W.fus= 147.1241; %fuselage
 W.ie= 743.1507; %installed engines
@@ -98,7 +72,30 @@ W.fuel= 2.0862e+03; %fuel weight
 W.pilot = 110; %pilot
 
 
+%% Speeds %m/s
+V_stall = sqrt(WS*2/(C_Lmax*rho_ceil));
+V_takeoff = 1.1*V_stall; %lecture 3 slide 47
+V_climb = 1.4*V_stall; 
+V_cruise = 108.056;
+V_approach = 1.3*V_stall; %lecture 3 slide 47
+V_landing = 1.15*V_stall;
+V_maneuver = [38.0556 + 5.14444, V_cruise, V_cruise]; %10kts above stall 1 engine, pull up maneuver, push down
 
+Velocities = {'V_stall ', V_stall;
+              'V_takeoff', V_takeoff;
+              'V_climb', V_climb;
+              'V_cruise', V_cruise;
+              'V_approach', V_approach;
+              'V_landing', V_landing;
+              'V_maneuver', V_maneuver};
+
+%% Factors
+n = [3 -1];
+Nz = 1.5*n;
+TOP = 200; %Takeoff parameter
+G = tand(12); %climb gradient
+S_landing = 0.507*mps2knots(V_landing)^2;
+S_a = 450;
 
 %% Functions
 function dynamicpressure = q(rho,V) 
