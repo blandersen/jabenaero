@@ -2,6 +2,10 @@ clear;close all; clc;
 
 run parameters.m
 clear ('PW', 'WS')
+
+SAVEFIGURE = true;
+
+
 % WS = CL_max/2*1/2*rho*Vstall^2;
 
 %variables
@@ -43,7 +47,7 @@ WS.Landing = (S_landing - S_a)*C_Lmax/80;
 %% Figure Plot
 
 
-figure(1)
+fig = figure(1);
 hold on
 
 title('Power Loading vs. Wing Loading')
@@ -72,6 +76,11 @@ plot(WS.opt,PW.opt,'^k','LineWidth',3)
 %
 legend('Ceiling', 'Low Speed Maneuver', 'Pull Up Maneuver', 'Push Down Maneuver','Climb', 'Takeoff','Landing','Optimal Point')
 
+if SAVEFIGURE
+    cd figures
+    exportgraphics(fig, 'sizing.png', 'ContentType', 'vector');
+    cd ..
+end
 
 %% Functions
 function dynamicpressure = q(rho,V) 
