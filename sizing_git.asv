@@ -1,6 +1,7 @@
 clear;close all; clc;
 
 run parameters.m
+% clear ('PW', 'WS')R
 
 SAVEFIGURE = true;
 
@@ -11,8 +12,6 @@ SAVEFIGURE = true;
 
 WSopt = WS; %W/S
 PWopt = PW; %PW
-
-clear ('PW', 'WS')
 
 WS.lin = linspace(0,500*9.8,500); %N/m2
 %% Parameters

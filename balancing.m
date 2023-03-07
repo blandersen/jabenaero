@@ -8,8 +8,7 @@ W.fwdgear = 400/3; %~5% of gross mass
 W.aftgear = 400/3; %~5% of gross mass
 %% Fuselage Basic Geometry
 %Masses in lbs, distances in feet
-fuselage.L = 17; %fuselage length
-fuselage.R = 1; % radius
+
 
 %% Mean Aerodynamic Chord
 %mac is defined in parameters.m
@@ -22,25 +21,25 @@ tip_leading_edge_offset = (b/2)*sind(sweep); % with respect to forward most lead
 %change the fraction 0.XXX percent of the fuselage
 
 X.CG = [NaN, NaN]; %CG
-X.avi = [0.1* fuselage.L, 0]; %avionics
-X.fus = [0.55 * fuselage.L, 0];
-X.elec = [0.4 * fuselage.L, -0.80 * fuselage.R];
-X.fs = [0.7 * fuselage.L, 0]; %fuel system
+X.avi = [0.1* fuselage.cabin, 0]; %avionics
+X.fus = [0.55 * fuselage.cabin, 0];
+X.elec = [0.4 * fuselage.cabin, -0.80 * fuselage.R];
+X.fs = [0.7 * fuselage.cabin, 0]; %fuel system
 % Xie
-X.wing = [0.5 * fuselage.L + wing_cg_offset, fuselage.R]; %number is forward most point of leading edge
-X.pl = [0.6 * fuselage.L, 0];
+X.wing = [0.5 * fuselage.cabin + wing_cg_offset, fuselage.R]; %number is forward most point of leading edge
+X.pl = [0.6 * fuselage.cabin, 0];
 X.fwdeng = X.wing + [tip_leading_edge_offset,0];
-X.afteng = [0.9 * fuselage.L,fuselage.R];
-X.fwdgear = [0.1 * fuselage.L, -fuselage.R];
-X.pilot = [0.15 * fuselage.L, 0];
+X.afteng = [0.9 * fuselage.cabin,fuselage.R];
+X.fwdgear = [0.1 * fuselage.cabin, -fuselage.R];
+X.pilot = [0.15 * fuselage.cabin, 0];
 %front gear placement
-Pfg = [0.1 * fuselage.L, -2];
+Pfg = [0.1 * fuselage.cabin, -fuselage.R*1.5];
 
 xfn = fieldnames(X);
 
 %check for a neutral point defined in parameters.m
 try NP;
-catch NP = 0.62*[fuselage.L, fuselage.R];
+catch NP = 0.62*[fuselage.cabin, fuselage.R];
 end
 
 
@@ -116,13 +115,14 @@ fig1 = figure(1);
 subplot(2,1,1)
 hold on; axis equal;
 title('Relative Weight and CG Placement')
-axis([-1 fuselage.L+5 -3 3])
+axis([-1 fuselage.cabin+5 -3 3])
 xlabel('Station [m]')
 ylabel('Height [m]')
 xline(0)
+xline(fuselage.nose)
 yline(0)
 fig1.Position = [250 250 1028 640];
-xline(fuselage.L)
+xline(fuselage.nose+fuselage.cabin)
 %plot components
 for k=1:numel(xfn)
     if( isnumeric(X.(xfn{k})) && ~strcmp((xfn{k}),'CG') )

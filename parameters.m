@@ -7,7 +7,7 @@ rho_sl= 1.2250; %kg/m^3
 rho_ceil = 1.0556; %kg/m^2, 5000ft
 
 %% Propulsion
-PW = 119; %W/N
+PW = 100; %W/N
 % eta %propulsive efficiency
 
 %% Wings
@@ -18,7 +18,7 @@ qcs = 10;% degrees quarter chord sweep
 taper = 0.4;%taper ratio
 tc = 0.15; %thickness to chord
 xc = 0.25; %max thickness at quarter chord
-WS = 835; %wing loading, N/m2
+WS = 1090; %wing loading, N/m2
 cr = 2.6; %root chord
 ct = 1.04; %tip chord
 mac = (2/3)*((1 + taper + taper^2)/(1+taper))*cr;
@@ -38,6 +38,9 @@ e = 0.8;
 % NP = [x, y]
 
 %% Structures
+fuselage.cabin = 15;
+fuselage.R = 3/2;
+fuselage.nose = 1.5;
 
 %% Weights and Fractions (kg)
 %components
@@ -87,7 +90,7 @@ Velocities = {'V_stall ', V_stall;
               'V_cruise', V_cruise;
               'V_approach', V_approach;
               'V_landing', V_landing;
-              'V_maneuver', V_maneuver};
+              'V_maneuver', V_maneuver}
 
 %% Factors
 n = [3 -1];
