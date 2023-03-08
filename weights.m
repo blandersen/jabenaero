@@ -1,6 +1,11 @@
 close all;
 clear;
 clc;
+
+SAVEFIGURE = false;
+
+fig = figure
+
 W0 = 8.3461e+03;                %kg
 W0 = kg2lb(W0);
 %%WEIGHTS GIVEN IN LBS%%
@@ -86,7 +91,11 @@ xlabel('Weight Fraction')
 title('Weight Budget')
 
 
-
+if SAVEFIGURE
+    cd figures
+    exportgraphics(fig, 'weights.pdf', 'ContentType', 'vector');
+    cd ..
+end
 
 function dp = q(rho,V)
 dp = 1/2 *rho.*V^2;

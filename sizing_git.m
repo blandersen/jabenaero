@@ -1,10 +1,19 @@
 clear;close all; clc;
 
 run parameters.m
-clear ('PW', 'WS')
+
+SAVEFIGURE = true;
+
+
 % WS = CL_max/2*1/2*rho*Vstall^2;
 
 %variables
+
+WSopt = WS; %W/S
+PWopt = PW; %PW
+
+clear ('PW', 'WS')
+
 WS.lin = linspace(0,500*9.8,500); %N/m2
 %% Parameters
 
@@ -15,9 +24,6 @@ q_climb = q(rho_ceil, V_climb);
 q_cruise = q(rho_ceil, V_cruise);
 
 
-%load factor
-n=3.5;
-
 %overall efficiency for prop system
 eta = .2; 
 
@@ -26,11 +32,11 @@ eta = .2;
 
 PW.Ceiling = 1/LD*(V_cruise/eta);
 
-PW.Maneuver1 = (C_D0*q_maneuver(1)./WS.lin + n^2/(pi*e*AR*q_maneuver(1)).*WS.lin).*(V_maneuver(1)/eta);
+PW.Maneuver1 = (C_D0*q_maneuver(1)./WS.lin + n(1)^2/(pi*e*AR*q_maneuver(1)).*WS.lin).*(V_maneuver(1)/eta);
 
-PW.Maneuver2 = (C_D0*q_maneuver(2)./WS.lin + n^2/(pi*e*AR*q_maneuver(2)).*WS.lin).*(V_maneuver(2)/eta);
+PW.Maneuver2 = (C_D0*q_maneuver(2)./WS.lin + n(1)^2/(pi*e*AR*q_maneuver(2)).*WS.lin).*(V_maneuver(2)/eta);
 
-PW.Maneuver3 = (C_D0*q_maneuver(3)./WS.lin + 1^2/(pi*e*AR*q_maneuver(3)).*WS.lin).*(V_maneuver(3)/eta);
+PW.Maneuver3 = (C_D0*q_maneuver(3)./WS.lin + n(2)^2/(pi*e*AR*q_maneuver(3)).*WS.lin).*(V_maneuver(3)/eta);
 
 PW.Climb = (G + (WS.lin)./(pi*e*AR*q_climb) + C_D0*q_climb./WS.lin).*(V_climb/eta);
 
@@ -43,7 +49,7 @@ WS.Landing = (S_landing - S_a)*C_Lmax/80;
 %% Figure Plot
 
 
-figure(1)
+fig = figure(1);
 hold on
 
 title('Power Loading vs. Wing Loading')
@@ -64,14 +70,18 @@ xline(WS.Landing, 'y','LineWidth',2)
 % opty = min(opter);
 % optx = WS.lin((opter) == opty);
 
-WS.opt = 835; %W/S
-PW.opt = 119; %PW
+
 grid on
-plot(WS.opt,PW.opt,'^k','LineWidth',3)
+plot(WSopt,PWopt,'^k','LineWidth',3)
 
 %
 legend('Ceiling', 'Low Speed Maneuver', 'Pull Up Maneuver', 'Push Down Maneuver','Climb', 'Takeoff','Landing','Optimal Point')
 
+if SAVEFIGURE
+    cd figures
+    exportgraphics(fig, 'sizing.png', 'ContentType', 'vector');
+    cd ..
+end
 
 %% Functions
 function dynamicpressure = q(rho,V) 
