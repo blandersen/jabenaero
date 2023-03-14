@@ -27,7 +27,6 @@ q_cruise = q(rho_ceil, V_cruise);
 %overall efficiency for prop system
 eta = .2; 
 
-
 %% Equations
 
 PW.Ceiling = 1/LD*(V_cruise/eta);

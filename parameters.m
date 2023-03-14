@@ -52,12 +52,15 @@ pax = 16; %15 passengers + 1 pilot
 Wp = pax*Wc; %payload weight is equivalent to 16 people with 30lbs of cargo each
 
 % fuel weight ratio
-WfW0 = .25; %max for cessna
+WfW0 = 0.125; %max for cessna
+
+% battery weight ratio
+WbW0 = 0.125;
 
 % Wfw = ;%fuel weight in wings
 Wpress = 0; %weight penalty for cabin pressurization
 
-W0 = (Wp)./(1 - WeW0 - WfW0);
+W0 = (Wp)./(1 - WeW0 - WfW0 - WbW0);
 % W0 = (Wp + pax*Wc)./(1 - WeW0 - WfW0); %assumes paylaod + passengers
 
 % Weights in kg

@@ -103,16 +103,15 @@ fueldpkg = 0.8; %80 cents per kg
 nump = 5:1:200;
 costperplane = Cost.total./nump;
 figure(2); 
-hold on;
-plot(5:200,Cost.total./(5:200),'-b','LineWidth',2)
-plot(200:2000,Cost.total./(200:2000),'--b','LineWidth',2)
+hold 
+semilogy(5:200,costperplane,'-b','LineWidth',2)
+semilogy(200:2000,costperplane,'--b','LineWidth',2)
 title('Vehicle Cost vs. Production Quantity')
 ylabel('USD 2023')
 xlabel('Production Quantity')
-set(gca, 'YScale', 'log')
 grid on
-set(gca,'Fontsize',14,'box','off')
-legend('First 5 Years','Continued Production')
+set(gca,'Fontname','Garamond','Fontsize',14,'box','off')
+
 %% Profitability for a max distance flight
 cost_paxkm = 0.62;
 fuelcpkg = 0.82; %82cents per kg

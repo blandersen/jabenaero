@@ -1,0 +1,11 @@
+Object	Mass	x	y	z
+Fuselage	1043	8.25	0	0
+Fuel System	334.252	10.5	0	0
+Payload	757	9	0	0
+Avionics	660.59	1.5	0	0
+Pilot	110	2.25	0	0
+Forward Prop 1	185.788	12.5	12.75	1.5
+Forward Prop 2	185.788	12.5	-12.75	1.5
+Electrical	286.891	6	0	-1.2
+Aft Prop 1	185.788	17.5	0.5	1.5
+Aft Prop 2	185.788	17.5	-0.5	1.5
