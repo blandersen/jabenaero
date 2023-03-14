@@ -18,7 +18,7 @@ qcs = 10;% degrees quarter chord sweep
 taper = 0.4;%taper ratio
 tc = 0.15; %thickness to chord
 xc = 0.25; %max thickness at quarter chord
-WS = 1090; %wing loading, N/m2
+WS = 1340; %wing loading, N/m2
 cr = 2.6; %root chord
 ct = 1.04; %tip chord
 mac = (2/3)*((1 + taper + taper^2)/(1+taper))*cr;
@@ -40,7 +40,8 @@ e = 0.8;
 %% Structures
 fuselage.cabin = 15;
 fuselage.R = 3/2;
-fuselage.nose = 1.5;
+fuselage.nose = 0;
+body.length = 18;
 
 %% Weights and Fractions (kg)
 %components
@@ -73,10 +74,13 @@ W.elec= 286.8911; %electrical components
 W.pl= 757.0068; %payload
 W.fuel= 2.0862e+03; %fuel weight
 W.pilot = 110; %pilot
+W.tail = W.wing/3;
 
 
 %% Speeds %m/s
 V_stall = sqrt(WS*2/(C_Lmax*rho_ceil));
+% V_stall = 47;
+
 V_takeoff = 1.1*V_stall; %lecture 3 slide 47
 V_climb = 1.4*V_stall; 
 V_cruise = 108.056;

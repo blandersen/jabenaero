@@ -12,6 +12,8 @@ Mmax = 0.5; %max engine mach number
 
 % % % % %  
 
+%% Production Cost
+
 Hours.engineering = 5.18*We^(0.777)*V_cruise^(0.894)*Q^(0.163);
 
 Hours.tooling = 7.22*We^(0.777)*V_cruise^(0.696)*Q^(0.163);
@@ -47,6 +49,12 @@ Cost.total = inflation*(Hours.engineering*R.eng + ...
              Cost.materials+...
              Cost.engineprod*4+...
              Cost.avionics)
+
+%% Direct Operating Cost
+
+Ca = Cost.total - Cost.engineprod
+Ce = Cost.engineprod
+
 
 
 

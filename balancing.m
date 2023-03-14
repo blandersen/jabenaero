@@ -21,25 +21,26 @@ tip_leading_edge_offset = (b/2)*sind(sweep); % with respect to forward most lead
 %change the fraction 0.XXX percent of the fuselage
 
 X.CG = [NaN, NaN]; %CG
-X.avi = [0.1* fuselage.cabin, 0]; %avionics
-X.fus = [0.55 * fuselage.cabin, 0];
-X.elec = [0.4 * fuselage.cabin, -0.80 * fuselage.R];
-X.fs = [0.7 * fuselage.cabin, 0]; %fuel system
+X.avi = [0.005* fuselage.cabin + fuselage.nose, 0]; %avionics
+X.fus = [0.55 * fuselage.cabin + fuselage.nose, 0];
+X.elec = [0.4 * fuselage.cabin + fuselage.nose, -0.80 * fuselage.R];
+X.fs = [0.7 * fuselage.cabin + fuselage.nose, 0]; %fuel system
 % Xie
-X.wing = [0.5 * fuselage.cabin + wing_cg_offset, fuselage.R]; %number is forward most point of leading edge
-X.pl = [0.6 * fuselage.cabin, 0];
+X.wing = [.64* fuselage.cabin + wing_cg_offset, fuselage.R]; %number is forward most point of leading edge
+X.pl = [0.45 * fuselage.cabin + fuselage.nose, 0];
 X.fwdeng = X.wing + [tip_leading_edge_offset,0];
-X.afteng = [0.9 * fuselage.cabin,fuselage.R];
-X.fwdgear = [0.1 * fuselage.cabin, -fuselage.R];
-X.pilot = [0.15 * fuselage.cabin, 0];
+X.afteng = [0.9 * fuselage.cabin + fuselage.nose,fuselage.R];
+X.fwdgear = [0.1 * fuselage.cabin + fuselage.nose, -fuselage.R];
+X.pilot = [0.05 * fuselage.cabin + fuselage.nose, 0];
+X.tail = [17.5, fuselage.R + 1.5]
 %front gear placement
-Pfg = [0.1 * fuselage.cabin, -fuselage.R*1.5];
+Pfg = [0.1 * fuselage.cabin + fuselage.nose, -fuselage.R*1.5];
 
 xfn = fieldnames(X);
 
 %check for a neutral point defined in parameters.m
 try NP;
-catch NP = 0.62*[fuselage.cabin, fuselage.R];
+catch NP = [10.5, fuselage.R];
 end
 
 
@@ -58,6 +59,7 @@ label.fus = 'Fuse.';
 label.elec = 'Elec.';
 label.fwdgear = 'Fwd Gear';
 label.pilot = 'Pilot';
+label.tail = 'Tail';
 % label.fcontrol = 'Controls';
 %% CG Calc
 
@@ -115,7 +117,7 @@ fig1 = figure(1);
 subplot(2,1,1)
 hold on; axis equal;
 title('Relative Weight and CG Placement')
-axis([-1 fuselage.cabin+5 -3 3])
+axis([-1 fuselage.cabin+5 -3 5])
 xlabel('Station [m]')
 ylabel('Height [m]')
 xline(0)

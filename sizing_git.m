@@ -2,7 +2,7 @@ clear;close all; clc;
 
 run parameters.m
 
-SAVEFIGURE = true;
+SAVEFIGURE = false;
 
 
 % WS = CL_max/2*1/2*rho*Vstall^2;
@@ -32,7 +32,7 @@ eta = .2;
 
 PW.Ceiling = 1/LD*(V_cruise/eta);
 
-PW.Maneuver1 = (C_D0*q_maneuver(1)./WS.lin + n(1)^2/(pi*e*AR*q_maneuver(1)).*WS.lin).*(V_maneuver(1)/eta);
+PW.Maneuver1 = (C_D0*q_maneuver(1)./WS.lin + 2^2/(pi*e*AR*q_maneuver(1)).*WS.lin).*(V_maneuver(1)/eta);
 
 PW.Maneuver2 = (C_D0*q_maneuver(2)./WS.lin + n(1)^2/(pi*e*AR*q_maneuver(2)).*WS.lin).*(V_maneuver(2)/eta);
 
@@ -79,9 +79,13 @@ legend('Ceiling', 'Low Speed Maneuver', 'Pull Up Maneuver', 'Push Down Maneuver'
 
 if SAVEFIGURE
     cd figures
-    exportgraphics(fig, 'sizing.png', 'ContentType', 'vector');
+    delete 'sizing.png'; delete 'sizing.pdf';
+    exportgraphics(fig, 'sizing.png', 'resolution', 1080);
+    exportgraphics(fig, 'sizing.pdf', 'ContentType', 'vector');
     cd ..
 end
+
+WingAreaNeeded = W0*9.8/WSopt
 
 %% Functions
 function dynamicpressure = q(rho,V) 
