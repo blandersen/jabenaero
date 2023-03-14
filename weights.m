@@ -65,7 +65,8 @@ W.fs = 2.49*Vt^.726*(.5^.363)*Nt^.242*Ne^.157;
 %electrical
 W.elec = 12.57*(W.fus + W.avi)^.51;
 
-
+%seating
+W.seat = 30*16;                                  % in kg, using 30kg per seat
 
 %weights in kg
 W.wing = lb2kg(W.wing);
@@ -78,11 +79,12 @@ W.elec = lb2kg(W.elec);
 W.pl = lb2kg(1.6692e+03);
 W.fuel = 0.25*lb2kg(W0);
 
-y = [W.wing, W.fus, W.ie, W.fc, W.avi, W.fus, W.elec, W.pl, W.fuel];
+
+y = [W.wing, W.fus, W.ie, W.fc, W.avi, W.fus, W.elec, W.pl, W.fuel, W.seat];
 Y = y/lb2kg(W0);
 Y(end+1) = 1-sum(Y);
 b = barh(Y);
-yticklabels({'Wings', 'Fuselage', 'Installed Engines', 'Flight Controls', 'Avionics', 'Fuel Systems', 'Electrical','Payload','Fuel','Unassigned'}) 
+yticklabels({'Wings', 'Fuselage', 'Installed Engines', 'Flight Controls', 'Avionics', 'Fuel Systems', 'Electrical','Payload','Fuel', 'Seating', 'Unassigned'}) 
 xtips = b.YEndPoints + .001;
 ytips = b.XEndPoints;
 labels = string(b.YData);
