@@ -1,12 +1,13 @@
 % neutral point
 clc
+close all
 run("parameters.m")
 wingAirfoil = table2array(readtable("wing_airfoil"));
 tailAirfoil = wingAirfoil;
 
 n = 1000;
-xmax = 18;
-ymax = 3;
+xmax = 100;
+ymax = 20;
 
 COG = [10 2];
 HIGHT = 4;
@@ -32,8 +33,8 @@ rho = rho_sl;
 U = V_takeoff;
 q = 1/2*rho*U^2;
 
-alpha = 5;
-trim = -5;
+alpha = 0;
+trim = 0;
 
 CL_wing = wingAirfoil(:,2);
 CD_wing = wingAirfoil(:,3) ;%+ wingAirfoil(:,4);
@@ -58,15 +59,8 @@ M_tail = q*CM_tail(j)*S_tail;
 F_wing = [L_wing D_wing];
 F_tail = [L_tail D_tail];
 
-Mx = M_tail + M_wing + (x-x_wing).*F_wing(1) + (x-x_tail).*F_tail(1);
-My = M_tail + M_wing + (y-y_wing).*F_wing(2) + (y-y_tail).*F_tail(2);
-
-figure(1)
-hold on
-yline(0)
-plot(x,Mx)
-
-[m, k] = min(abs(M))
+M = M_tail + M_wing + (p-p_wing).*F_wing + (p-p_tail).*F_tail;
+%[m, k] = min(abs(M))
 
 NP = [x(k(1)) y(k(2))]
 
