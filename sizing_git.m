@@ -25,13 +25,15 @@ q_cruise = q(rho_ceil, V_cruise);
 
 
 %overall efficiency for prop system
-eta = .2; 
+eta = .7; 
 
 %% Equations
 
 PW.Ceiling = 1/LD*(V_cruise/eta);
 
-PW.Maneuver1 = (C_D0*q_maneuver(1)./WS.lin + 2^2/(pi*e*AR*q_maneuver(1)).*WS.lin).*(V_maneuver(1)/eta);
+
+% PW.Maneuver1 = (V_cruise/eta)*((C_D0*q_maneuver(1))./(WS.lin)+((WS.lin)*(3^2))./((pi*e*AR*q_maneuver(1)))); %theirs
+PW.Maneuver1 = (C_D0*q_maneuver(1)./WS.lin + n(2)^2/(pi*e*AR*q_maneuver(1)).*WS.lin).*(V_maneuver(1)/eta);
 
 PW.Maneuver2 = (C_D0*q_maneuver(2)./WS.lin + n(1)^2/(pi*e*AR*q_maneuver(2)).*WS.lin).*(V_maneuver(2)/eta);
 
@@ -52,7 +54,7 @@ fig = figure(1);
 hold on
 
 title('Power Loading vs. Wing Loading')
-axis([0 2500 0 250])
+axis([0 2500 0 70])
 xlabel('Wing Loading, W/S [N/m^2]')
 ylabel('Power to Weight Ratio, P/W, [W/N]')
 yline(PW.Ceiling,'b','LineWidth',2)
@@ -70,12 +72,12 @@ xline(WS.Landing, 'y','LineWidth',2)
 % optx = WS.lin((opter) == opty);
 
 
-grid on
+grid on; box off
 plot(WSopt,PWopt,'^k','LineWidth',3)
 
 %
 legend('Ceiling', 'Low Speed Maneuver', 'Pull Up Maneuver', 'Push Down Maneuver','Climb', 'Takeoff','Landing','Optimal Point')
-
+set(gca,'Fontsize',14,'box','off')
 if SAVEFIGURE
     cd figures
     delete 'sizing.png'; delete 'sizing.pdf';
