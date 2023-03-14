@@ -6,9 +6,7 @@ g = 9.81; %gravity
 rho_sl= 1.2250; %kg/m^3
 rho_ceil = 1.0556; %kg/m^2, 5000ft
 
-%% Propulsion
-PW = 100; %W/N
-% eta %propulsive efficiency
+
 
 %% Wings
 S = 44; %area
@@ -79,6 +77,10 @@ W.fuel= 2.0862e+03; %fuel weight
 W.pilot = 110; %pilot
 W.tail = W.wing/3;
 
+%% Propulsion
+PW = 30; %W/N
+TotalPower = PW*9.8*W0
+% eta %propulsive efficiency
 
 %% Speeds %m/s
 V_stall = sqrt(WS*2/(C_Lmax*rho_ceil));
