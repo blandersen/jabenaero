@@ -41,8 +41,8 @@ W.fus = 0.052*(Sf^1.086)*(Nz*Wdg)^.177*Lt^(-0.051)*(L/D)^(-.072)*q_cruise^.241;
 %Engine
 W_engine = 235;
 W_en = kg2lb(W_engine);
-Ne = 2;
-W.ie = 2.575*W_en^0.922*Ne; % WHAT'S THIS
+Ne = 4;
+W.ie = 2.575*W_en^0.922*Ne; %INSTALLED ENGINE WIEGHT 
 
 
 
@@ -68,6 +68,10 @@ W.elec = 12.57*(W.fus + W.avi)^.51;
 %seating
 W.seat = 30*16;                                  % in kg, using 30kg per seat
 
+%tail 
+W.tail = W.wing/3;
+
+
 %weights in kg
 W.wing = lb2kg(W.wing);
 W.fus = lb2kg(W.fus);
@@ -78,6 +82,7 @@ W.fs = lb2kg(W.fs);
 W.elec = lb2kg(W.elec);
 W.pl = lb2kg(1.6692e+03);
 W.fuel = 0.25*lb2kg(W0);
+W.tail = lb2kg(W.tail);
 
 
 y = [W.wing, W.fus, W.ie, W.fc, W.avi, W.fus, W.elec, W.pl, W.fuel, W.seat];
